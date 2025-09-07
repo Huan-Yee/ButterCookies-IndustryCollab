@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
 interface SummaryData {
@@ -33,139 +34,186 @@ interface SummaryPanelProps {
 export function SummaryPanel({ summary, isLoading }: SummaryPanelProps) {
   if (isLoading) {
     return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
-            Generating AI Summary...
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
-            <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2"></div>
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <Card className="w-full border-slate-200 shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-3 text-slate-800 font-medium">
+              <div className="w-5 h-5 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin"></div>
+              Analyzing Documentation
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="h-3 bg-slate-100 rounded animate-pulse"></div>
+              <div className="h-3 bg-slate-100 rounded animate-pulse w-3/4"></div>
+              <div className="h-3 bg-slate-100 rounded animate-pulse w-1/2"></div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
     );
   }
 
   if (!summary) {
     return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>📊 AI Summary</CardTitle>
-          <CardDescription>
-            Upload a file or fetch a repository to generate an AI-powered summary
-          </CardDescription>
-        </CardHeader>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
+        <Card className="w-full border-slate-200 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-slate-800 font-medium">Analysis Results</CardTitle>
+            <CardDescription className="text-slate-600">
+              Upload a file or fetch a repository to generate comprehensive insights
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </motion.div>
     );
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 85) return 'text-green-600 bg-green-50';
-    if (score >= 70) return 'text-yellow-600 bg-yellow-50';
-    return 'text-red-600 bg-red-50';
+    if (score >= 85) return 'text-emerald-700 bg-emerald-50 border-emerald-200';
+    if (score >= 70) return 'text-amber-700 bg-amber-50 border-amber-200';
+    return 'text-red-700 bg-red-50 border-red-200';
   };
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="space-y-8"
+    >
       {/* Main Summary */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            🤖 AI Analysis Summary
-          </CardTitle>
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-slate-800 font-medium">Executive Summary</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-700 leading-relaxed">{summary.summary}</p>
+          <p className="text-slate-700 leading-relaxed">{summary.summary}</p>
         </CardContent>
       </Card>
 
       {/* Key Points */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">🎯 Key Points</CardTitle>
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-slate-800 font-medium">Key Insights</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {summary.keyPoints.map((point, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
-                <span className="text-blue-600 font-semibold text-sm mt-1">#{index + 1}</span>
-                <span className="text-gray-700" dangerouslySetInnerHTML={{ __html: point }}></span>
-              </div>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg border border-slate-100"
+              >
+                <span className="text-slate-500 font-medium text-sm mt-1 min-w-[24px]">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="text-slate-700" dangerouslySetInnerHTML={{ __html: point.replace(/\*\*/g, '') }}></span>
+              </motion.div>
             ))}
           </div>
         </CardContent>
       </Card>
 
       {/* Technical Highlights */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">⚡ Technical Highlights</CardTitle>
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-slate-800 font-medium">Technical Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3">
+          <div className="grid gap-4">
             {summary.technicalHighlights.map((highlight, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-purple-50 rounded-lg">
-                <span className="text-purple-600 font-bold">•</span>
-                <span className="text-gray-700" dangerouslySetInnerHTML={{ __html: highlight }}></span>
-              </div>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="flex items-start gap-3 p-3 border border-slate-100 rounded-lg"
+              >
+                <div className="w-2 h-2 bg-slate-400 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-slate-700" dangerouslySetInnerHTML={{ __html: highlight.replace(/\*\*/g, '') }}></span>
+              </motion.div>
             ))}
           </div>
         </CardContent>
       </Card>
 
       {/* Code Quality Metrics */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">📊 Code Quality Assessment</CardTitle>
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-slate-800 font-medium">Quality Assessment</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {Object.entries(summary.codeQuality).map(([key, value]) => (
-              <div key={key} className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold capitalize">{key}</span>
-                  <span className={`px-2 py-1 rounded text-sm font-bold ${getScoreColor(value.score)}`}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {Object.entries(summary.codeQuality).map(([key, value], index) => (
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="p-4 border border-slate-200 rounded-lg"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-medium capitalize text-slate-700">{key}</span>
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getScoreColor(value.score)}`}>
                     {value.score}%
                   </span>
                 </div>
-                <p className="text-sm text-gray-600">{value.description}</p>
-              </div>
+                <p className="text-sm text-slate-600">{value.description}</p>
+              </motion.div>
             ))}
           </div>
         </CardContent>
       </Card>
 
       {/* Project Structure */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">🏗️ Project Structure Analysis</CardTitle>
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-slate-800 font-medium">Structure Analysis</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <h4 className="font-semibold text-green-700 mb-3">✅ Strengths</h4>
-              <ul className="space-y-2">
+              <h4 className="font-medium text-slate-700 mb-4">Strengths</h4>
+              <ul className="space-y-3">
                 {summary.projectStructure.strengths.map((strength, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <span className="text-green-500 mt-1">✓</span>
-                    <span className="text-sm text-gray-700">{strength}</span>
-                  </li>
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-sm text-slate-600">{strength}</span>
+                  </motion.li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-orange-700 mb-3">🔧 Improvements</h4>
-              <ul className="space-y-2">
+              <h4 className="font-medium text-slate-700 mb-4">Improvements</h4>
+              <ul className="space-y-3">
                 {summary.projectStructure.improvements.map((improvement, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <span className="text-orange-500 mt-1">⚡</span>
-                    <span className="text-sm text-gray-700">{improvement}</span>
-                  </li>
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
+                    <div className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-sm text-slate-600">{improvement}</span>
+                  </motion.li>
                 ))}
               </ul>
             </div>
@@ -174,56 +222,56 @@ export function SummaryPanel({ summary, isLoading }: SummaryPanelProps) {
       </Card>
 
       {/* Recommendations */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">💡 AI Recommendations</CardTitle>
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-slate-800 font-medium">Recommendations</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {summary.recommendations.map((rec, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-amber-50 border-l-4 border-amber-400 rounded-r-lg">
-                <span className="text-amber-600 font-bold text-lg">💡</span>
-                <span className="text-gray-700" dangerouslySetInnerHTML={{ __html: rec }}></span>
-              </div>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="p-4 bg-slate-50 border-l-4 border-slate-300 rounded-r-lg"
+              >
+                <span className="text-slate-700" dangerouslySetInnerHTML={{ __html: rec.replace(/\*\*/g, '') }}></span>
+              </motion.div>
             ))}
           </div>
         </CardContent>
       </Card>
 
       {/* Project Metrics */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">📈 Project Metrics</CardTitle>
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-slate-800 font-medium">Project Metrics</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="text-center p-3 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">{summary.metrics.linesOfCode.toLocaleString()}</div>
-              <div className="text-sm text-gray-600">Lines of Code</div>
-            </div>
-            <div className="text-center p-3 bg-green-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-600">{summary.metrics.components}</div>
-              <div className="text-sm text-gray-600">Components</div>
-            </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">{summary.metrics.pages}</div>
-              <div className="text-sm text-gray-600">Pages</div>
-            </div>
-            <div className="text-center p-3 bg-yellow-50 rounded-lg">
-              <div className="text-2xl font-bold text-yellow-600">{summary.metrics.utilities}</div>
-              <div className="text-sm text-gray-600">Utilities</div>
-            </div>
-            <div className="text-center p-3 bg-red-50 rounded-lg">
-              <div className="text-2xl font-bold text-red-600">{summary.metrics.testCoverage}%</div>
-              <div className="text-sm text-gray-600">Test Coverage</div>
-            </div>
-            <div className="text-center p-3 bg-gray-50 rounded-lg">
-              <div className="text-xl font-bold text-gray-600">{summary.metrics.bundleSize}</div>
-              <div className="text-sm text-gray-600">Bundle Size</div>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {[
+              { label: 'Lines of Code', value: summary.metrics.linesOfCode.toLocaleString(), color: 'bg-blue-50 text-blue-700' },
+              { label: 'Components', value: summary.metrics.components.toString(), color: 'bg-emerald-50 text-emerald-700' },
+              { label: 'Pages', value: summary.metrics.pages.toString(), color: 'bg-purple-50 text-purple-700' },
+              { label: 'Utilities', value: summary.metrics.utilities.toString(), color: 'bg-amber-50 text-amber-700' },
+              { label: 'Test Coverage', value: `${summary.metrics.testCoverage}%`, color: 'bg-red-50 text-red-700' },
+              { label: 'Bundle Size', value: summary.metrics.bundleSize, color: 'bg-slate-50 text-slate-700' },
+            ].map((metric, index) => (
+              <motion.div
+                key={metric.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="text-center p-4 border border-slate-200 rounded-lg"
+              >
+                <div className={`text-2xl font-semibold mb-1 ${metric.color}`}>{metric.value}</div>
+                <div className="text-sm text-slate-600">{metric.label}</div>
+              </motion.div>
+            ))}
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }

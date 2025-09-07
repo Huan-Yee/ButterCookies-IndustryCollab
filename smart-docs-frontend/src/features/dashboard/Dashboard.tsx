@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { FileUploader } from '../../components/FileUploader';
 import { RepoFetcher } from '../../components/RepoFetcher';
 import { SummaryPanel } from '../../components/SummaryPanel';
@@ -13,12 +14,12 @@ export function Dashboard() {
 
   const handleFileContent = (content: string) => {
     setCurrentContent(content);
-    setSummary(null); // Reset summary when new content is loaded
+    setSummary(null);
   };
 
   const handleRepoContent = (content: string) => {
     setCurrentContent(content);
-    setSummary(null); // Reset summary when new content is loaded
+    setSummary(null);
   };
 
   const handleGenerateSummary = async () => {
@@ -36,46 +37,68 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       <Navbar />
-      <div className="container mx-auto p-6">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            🤖 Smart Documentation Assistant
+      <div className="container mx-auto px-6 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-5xl font-light text-slate-800 mb-6 tracking-tight">
+            Smart Documentation
+            <span className="block text-slate-600 font-normal">Assistant</span>
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Upload your documentation files or fetch from GitHub repositories to get AI-powered insights, summaries, and recommendations.
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            Intelligent analysis and insights for your documentation.
+            Upload files or connect repositories to get started.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-6 lg:grid-cols-2 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="grid gap-8 lg:grid-cols-2 mb-12"
+        >
           <FileUploader onFileContent={handleFileContent} />
           <RepoFetcher onRepoContent={handleRepoContent} />
-        </div>
+        </motion.div>
 
         {currentContent && (
-          <div className="text-center mb-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-12"
+          >
             <Button
               onClick={handleGenerateSummary}
               disabled={isGeneratingSummary}
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-slate-900/25"
             >
               {isGeneratingSummary ? (
-                <div className="flex items-center gap-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   Analyzing Documentation...
                 </div>
               ) : (
-                '✨ Generate AI Summary'
+                'Generate Analysis'
               )}
             </Button>
-          </div>
+          </motion.div>
         )}
 
-        <div className="mt-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-8"
+        >
           <SummaryPanel summary={summary} isLoading={isGeneratingSummary} />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
