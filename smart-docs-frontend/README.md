@@ -141,26 +141,6 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ---
 
-**Track**: Developer Tools & Productivity
-**Focus**: AI-powered documentation quality assessment and improvement
-│   ├── ui/             # shadcn/ui components (Button, Card, etc.)
-│   ├── Layout.tsx      # Main app layout with sidebar
-│   ├── Sidebar.tsx     # Navigation sidebar
-│   ├── FileUploader.tsx    # File upload with drag & drop
-│   ├── RepoFetcher.tsx     # GitHub repository fetcher
-│   └── SummaryPanel.tsx    # AI summary generation
-├── pages/              # Page components
-│   ├── Dashboard.tsx   # Enhanced dashboard with new features
-│   ├── DocsViewer.tsx  # Document viewer with summary panel
-│   ├── QAPage.tsx      # Q&A chat interface
-│   ├── SuggestionsPage.tsx # AI suggestions and recommendations
-│   └── SettingsPage.tsx    # User settings and preferences
-├── data/               # Mock data
-│   └── mockData.ts     # Dummy docs, Q&As, and responses
-├── lib/                # Utilities
-│   └── utils.ts        # Helper functions (cn, etc.)
-└── App.tsx            # Main app with routing
-```
 
 ## 🚀 Getting Started
 
