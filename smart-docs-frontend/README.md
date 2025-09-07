@@ -6,21 +6,24 @@
 
 In today's fast-paced software development environment, organizations struggle with:
 
-- **Documentation Quality**: Inconsistent and outdated documentation that doesn't meet industry standards
+- **Slow to Write**: Creating documentation is repetitive, time-consuming, and often skipped.
 - **Knowledge Gap**: Developers spending excessive time understanding poorly documented codebases
-- **Quality Assessment**: Lack of systematic evaluation of documentation completeness and effectiveness
-- **Maintenance Overhead**: Manual review processes that are time-consuming and error-prone
+- **Hard to Read**: Long, unstructured docs overwhelm developers, especially new joiners.
+- **Difficult to Maintain**: In fast-changing codebases, documentation quickly becomes outdated, misleading, or irrelevant.
 - **Best Practices**: Difficulty in identifying and implementing documentation best practices
 
 ## 🎯 Solution Track: Developer Tools & Productivity
 
 This project addresses the **Developer Tools & Productivity** track by creating an intelligent documentation assistant that:
 
-1. **Automates Quality Assessment**: AI-powered analysis of documentation quality and completeness
-2. **Provides Actionable Insights**: Specific recommendations for improving documentation structure and content
-3. **Streamlines Review Process**: Automated scoring and highlighting of areas needing attention
-4. **Enhances Developer Experience**: Intuitive interface for uploading and analyzing documentation files
-5. **Supports Multiple Sources**: Integration with file uploads and GitHub repositories
+1. **Simplify Writing**:
+- Auto-generate starter docs from code, commits, or comments.
+- Provide AI-powered templates and suggestions to accelerate writing
+- Real-time validation to maintain consistency and quality
+2. **Speed Up Reading**:
+- Specific recommendations for improving documentation structure and content
+- Q&A search: ask natural-language questions and get instant, relevant answers
+- Visual cues (highlights, structure breakdowns) to make docs easier to navigate
 
 ## ✨ Key Features
 
@@ -240,29 +243,6 @@ MIT License - see [LICENSE](LICENSE) for details
 - **Grid layouts**: Responsive cards and columns
 - **Touch-friendly**: Proper spacing and touch targets
 
-## 📊 Dummy Data Examples
-
-### Documents
-```typescript
-{
-  id: 1,
-  title: "API Authentication",
-  updated: "2025-09-01",
-  status: "✅ Up-to-date",
-  content: "# API Authentication\n...",
-  summary: "Learn how to authenticate API requests..."
-}
-```
-
-### Q&A Items
-```typescript
-{
-  id: 1,
-  question: "How do I reset my API key?",
-  answer: "You can reset your API key by going to Settings...",
-  timestamp: "2025-09-07 10:30"
-}
-```
 
 ## 🔮 Ready for Backend Integration
 
